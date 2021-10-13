@@ -9,7 +9,7 @@ To use representations from hidden wav2vec2.0 transformer layers, this repositor
 1. Create and activate a new virtual environment.
 2. Clone the repo:
 
-       git clone https://github.com/nryant/pae_probe_experiments.git
+       git clone https://github.com/Bartelds/pae_probe_experiments.git
        cd pae_probe_experiments/
 	
 3. Install the required Python packages:
