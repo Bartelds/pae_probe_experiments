@@ -1,0 +1,16 @@
+batch_size: 1024
+classifier: logistic
+context_size: 0
+task: phone
+test_data:
+  timit:
+    feats: /data/p280965/probing/feats/wav2vec2-large-960h/layer-22
+    phones: /home/p280965/pae_probe_experiments_pg/data/timit/phones
+    step: 0.02
+    uris: /home/p280965/pae_probe_experiments_pg/data/lists/test_full.ids
+train_data:
+  timit:
+    feats: /data/p280965/probing/feats/wav2vec2-large-960h/layer-22
+    phones: /home/p280965/pae_probe_experiments_pg/data/timit/phones
+    step: 0.02
+    uris: /home/p280965/pae_probe_experiments_pg/data/lists/train.ids

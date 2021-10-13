@@ -3,6 +3,7 @@ This repository contains code for replicating the results from the following pap
 
 - Ma, Danni, Ryant, Neville, and Liberman, Mark. (2021). "Probing acoustic representations for phonetic properties." Proceedings of ICASSP. https://arxiv.org/abs/2010.13007
 
+To use representations from hidden wav2vec2.0 transformer layers, this repository is updated with the code from Bartelds, M., de Vries, W., Sanal, F., Richter, C., Liberman, M., & Wieling, M. (2020). "Neural Representations for Modeling Variation in English Speech". https://arxiv.org/abs/2011.12649
 
 ## Installation
 1. Create and activate a new virtual environment.

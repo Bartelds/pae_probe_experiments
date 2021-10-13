@@ -7,24 +7,26 @@ import sys
 import yaml
 
 
-PROBING_TASKS = ['sad', 'vowel', 'sonorant', 'fricative', 'phone']
+# PROBING_TASKS = ['sad', 'vowel', 'sonorant', 'fricative', 'phone']
+PROBING_TASKS = ['phone']
 CLASSIFIERS = ['logistic', 'max_margin', 'nnet']
-CORPORA = ['ctimit', 'ffmtimit', 'ntimit', 'stctimit', 'timit', 'wtimit']
+# CORPORA = ['ctimit', 'ffmtimit', 'ntimit', 'stctimit', 'timit', 'wtimit']
+CORPORA = ['timit']
 
 
 def main():
     parser = argparse.ArgumentParser(
         'generate configuration files', add_help=True)
     parser.add_argument(
-        'feats_dir', metavar='feats-dir', type=Path,
+        '--feats_dir', metavar='feats-dir', type=Path,
         help='directory of extracted features')
     parser.add_argument(
-        'model', help='name of model')
+        '--model', help='name of model')
     parser.add_argument(
-        'config_dir', metavar='config-dir', type=Path,
+        '--config_dir', metavar='config-dir', type=Path,
         help='output directory for config files')
     parser.add_argument(
-        'data_dir', metavar='data-dir', type=Path,
+        '--data_dir', metavar='data-dir', type=Path,
         help='directory containing processed TIMIT variants')
     parser.add_argument(
         '--context-size', metavar='CONTEXT', default=0, type=int,
@@ -37,6 +39,9 @@ def main():
     parser.add_argument(
         '--step', metavar='SECONDS', default=0.01, type=float,
         help='frame step size in seconds (default: %(default)s)')
+    parser.add_argument(
+        '--layer', default=24, type=int,
+        help='select layer to process')
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(1)
@@ -51,7 +56,7 @@ def main():
             train_data = {}
             test_data = {}
             for corpus in CORPORA:
-                feats_dir = Path(args.feats_dir, corpus, args.model)
+                feats_dir = Path(args.feats_dir, args.model, 'layer-' + str(args.layer))
                 phones_dir = Path(args.data_dir, corpus, 'phones')
                 train_data[corpus] = {
                     'uris' : str(args.data_dir / 'lists/train.ids'),
