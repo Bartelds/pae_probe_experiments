@@ -8,3 +8,6 @@ tqdm
 torch==1.7.0
 PyYAML>=5.1
 scikit_learn
+SoundFile==0.10.2
+onnxruntime==1.8.1
+transformers
