@@ -391,6 +391,9 @@ def main():
     parser.add_argument(
         '--n-jobs', nargs=None, default=1, type=int, metavar='JOBS',
         help='number of parallel jobs (default: %(default)s)')
+    parser.add_argument(
+        '--preds', default=False, action="store_true",
+        help='get labels of predictions')
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(1)
@@ -412,7 +415,6 @@ def main():
             dset.utterances, dset.step, task.context_size, task.phone_to_id,
             args.n_jobs)
         n_frames, feat_dim = feats.shape
-        print(f'FRAMES: {n_frames}, DIM: {feat_dim}')
 
         # Fit classifier.
         weights = (1 / np.bincount(targets)).astype(np.float32)
@@ -476,6 +478,10 @@ def main():
                 acc = metrics.accuracy_score(targets, preds)
                 precision, recall, f1, _ = metrics.precision_recall_fscore_support(
                     targets, preds, average='weighted')
+                if args.preds:
+                    print(f'\nPredictions {task.classifier} classifier for dataset "{dset.name}"...')
+                    for i, pred in enumerate(preds, start=1):
+                        print(f"{i}\t{pred}")
 
             # Update dataframe.
             records.append({
@@ -488,7 +494,7 @@ def main():
     scores_df = pd.DataFrame(records)
     scores_df = scores_df[
         ['train', 'test', 'acc', 'precision', 'recall', 'f1']]
-    print(scores_df)
+    print(f"\n{scores_df}")
 
 
 if __name__ == '__main__':
