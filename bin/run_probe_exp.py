@@ -480,16 +480,12 @@ def main():
                     targets, preds, average='weighted')
                 if args.preds:
                     print(f'\nPredictions {task.classifier} classifier for dataset "{dset.name}"...')
-                    # for i, pred in enumerate(preds, start=1):
-                    #     print(f"{i}\t{targets[i - 1]}\t{pred}")
 
-                    byPhone_precision, byPhone_recall, byPhone_f1, _ = metrics.precision_recall_fscore_support(targets, preds, average=None)
-
+                    byPhone_precision, byPhone_recall, byPhone_f1, byPhone_support = metrics.precision_recall_fscore_support(targets, preds, labels=list(set(targets)), average=None)
                     labels = list(set(targets))
-                    labels.sort()
 
                     byPhone_results = pd.DataFrame(
-                        {'label': labels, 'precision': byPhone_precision, 'recall': byPhone_recall, 'f1': byPhone_f1}
+                        {'label': labels, 'precision': byPhone_precision, 'recall': byPhone_recall, 'f1': byPhone_f1, 'support': byPhone_support}
                     )
 
                     print(byPhone_results.to_string())
