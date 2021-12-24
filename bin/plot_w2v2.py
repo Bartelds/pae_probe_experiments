@@ -55,13 +55,12 @@ def plot_scores(df, corpus, output_dir, eval):
     """Plots phone classification performance for each model in DataFrame. Plots F1 score by default"""
 
     output_dir = Path(output_dir, corpus, eval)
-    print(output_dir)
     os.makedirs(output_dir, exist_ok=True)
     
     df_group = df.groupby("method")
     for index, group in df_group:
         print(f"Plotting results for {index}")
-        f = sns.lineplot(data=group, x="layer", y="f1", hue="classifier").set_title(f"Phone-classification {eval} scores for {index} on {group['train'].to_list()[0]}")
+        f = sns.lineplot(data=group, x="layer", y="f1", hue="classifier", ci=None).set_title(f"Phone-classification {eval} scores for {index} on {group['train'].to_list()[0]}")
         f.figure.savefig(str(output_dir) + f"/{index}_{eval}.png")
         f.figure.clf()
     print(f"Plots stored at {output_dir}")
@@ -78,9 +77,9 @@ def main():
     args = parser.parse_args()
 
     outputs = glob("../experiments/wav2vec2.0/logs/*.stdout")
-    models = ["wav2vec2-large", "wav2vec2-large-960h"]
+    models = ["wav2vec2-large", "wav2vec2-large-960h", "wav2vec2-large-xlsr-53", "wav2vec2-xlsr-53-phon-cv-babel-ft"]
     
-    df, corpus = process_data(outputs, models, args.eval, args.output_dir, args.save)
+    df, corpus = process_data(outputs, models, args.eval, args.save)
     plot_scores(df, corpus, args.output_dir, args.eval)
 
 if __name__ == "__main__":
